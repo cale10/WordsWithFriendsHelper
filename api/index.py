@@ -7,15 +7,24 @@ Emails: elijahsawyers@gmail.com
 import sys
 import os
 
-# Add the project root to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+# Get the absolute path to the api directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+
+# Add directories to Python path
+sys.path.insert(0, current_dir)
+sys.path.insert(0, project_root)
 
 from flask import Flask, request, render_template, jsonify
 import best_game_move
 
+# Set up paths relative to project root
+template_folder = os.path.join(project_root, 'dist', 'templates')
+static_folder = os.path.join(project_root, 'dist', 'static')
+
 app = Flask(__name__,
-            template_folder='../dist/templates',
-            static_folder='../dist/static',
+            template_folder=template_folder,
+            static_folder=static_folder,
             static_url_path='/static')
 
 @app.route('/')
@@ -31,10 +40,6 @@ def compute_best_game_move():
     Given gameboard data, return the best possible game move.
     '''
     return jsonify(best_game_move.compute(request.json))
-
-# Vercel serverless handler
-def handler(request, context):
-    return app(request, context)
 
 # For local testing
 if __name__ == '__main__':
