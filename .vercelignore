@@ -1,5 +1,4 @@
 node_modules
-src
 test-*.spec.ts
 test-*.png
 *.json.map
@@ -10,3 +9,4 @@ __pycache__
 *.pyc
 .env
 .git
+test-results
