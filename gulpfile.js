@@ -19,7 +19,7 @@ const build = parallel(copyPython, copyTxt, copyHtml, copyStyles, copyAssets, co
  * will finish before moving to the next task.
  */
 function copyPython() {
-  return src('src/**/*.py')
+  return src('src/**/*.py', { allowEmpty: true })
       .pipe(dest('dist'));
 };
 
@@ -30,7 +30,7 @@ function copyPython() {
  * will finish before moving to the next task.
  */
 function copyTxt() {
-  return src('src/**/*.txt')
+  return src('src/**/*.txt', { allowEmpty: true })
       .pipe(dest('dist'));
 };
 
@@ -41,7 +41,7 @@ function copyTxt() {
  * will finish before moving to the next task.
  */
 function copyHtml() {
-  return src('src/**/*.html')
+  return src('src/**/*.html', { allowEmpty: true })
       .pipe(dest('dist'));
 };
 
@@ -52,7 +52,7 @@ function copyHtml() {
  * will finish before moving to the next task.
  */
 function copyStyles() {
-  return src('src/static/styles/**/*.css')
+  return src('src/static/styles/**/*.css', { allowEmpty: true })
       .pipe(dest('dist/static/styles'));
 };
 
@@ -63,7 +63,7 @@ function copyStyles() {
  * will finish before moving to the next task.
  */
 function copyAssets() {
-  return src('src/static/assets/**')
+  return src('src/static/assets/**', { allowEmpty: true })
       .pipe(dest('dist/static/assets'));
 };
 
@@ -74,7 +74,7 @@ function copyAssets() {
  * will finish before moving to the next task.
  */
 function copyPWA() {
-  return src(['src/static/service-worker.js', 'src/static/manifest.json'])
+  return src(['src/static/service-worker.js', 'src/static/manifest.json'], { allowEmpty: true })
       .pipe(dest('dist/static'));
 };
 
