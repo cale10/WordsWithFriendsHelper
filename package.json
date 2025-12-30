@@ -4,7 +4,11 @@
   "description": "Input your current game board, and letters, and this tool will provide you with the best possible move!",
   "main": "./dist/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/static/scripts/**/*.ts",
+    "lint:fix": "eslint src/static/scripts/**/*.ts --fix",
+    "build": "gulp",
+    "vercel-build": "npm install && gulp"
   },
   "repository": {
     "type": "git",
@@ -17,6 +21,7 @@
   },
   "homepage": "https://github.com/elijahsawyers/WordsWithFriendsHelper#readme",
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "browserify": "^16.5.0",

@@ -152,9 +152,19 @@ export class GameBoardCell extends Cell {
     return this._cellType;
   }
 
-  /** Setter for the cell type. */
+  /** Setter for the cell type (for board editor). */
   set cellType(newCellType: CellType|null) {
-    throw Error('Cannot change the cell type!');
+    this._cellType = newCellType || CellType.plain;
+  }
+
+  /** Public getter for type property (alias for cellType). */
+  get type(): CellType|null {
+    return this._cellType;
+  }
+
+  /** Public setter for type property (alias for cellType). */
+  set type(newType: CellType|null) {
+    this._cellType = newType || CellType.plain;
   }
 
   /** Getter for the cell index. */

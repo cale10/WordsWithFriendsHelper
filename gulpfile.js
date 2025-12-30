@@ -10,7 +10,7 @@ const browserify = require('browserify');
 const source = require('vinyl-source-stream');
 const tsify = require('tsify');
 
-const build = parallel(copyPython, copyTxt, copyHtml, copyStyles, copyAssets, bundle);
+const build = parallel(copyPython, copyTxt, copyHtml, copyStyles, copyAssets, copyPWA, bundle);
 
 /**
  * Moves source python files into the distribution folder.
@@ -65,6 +65,17 @@ function copyStyles() {
 function copyAssets() {
   return src('src/static/assets/**')
       .pipe(dest('dist/static/assets'));
+};
+
+/**
+ * Moves PWA files (service worker, manifest) into the distribution folder.
+ *
+ * @return {NodeJS.ReadWriteStream} the gulp stream so that the task
+ * will finish before moving to the next task.
+ */
+function copyPWA() {
+  return src(['src/static/service-worker.js', 'src/static/manifest.json'])
+      .pipe(dest('dist/static'));
 };
 
 /**

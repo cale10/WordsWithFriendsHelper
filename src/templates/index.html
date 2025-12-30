@@ -4,7 +4,17 @@
 <head>
     <!-- Meta data -->
     <meta charset="utf-8">
-    <title>WordsWithFriendsHelper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Words With Friends Helper</title>
+    <meta name="description" content="Analyze your Words With Friends board and find the highest-scoring word to play">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WWF Helper">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='assets/icon-192.png') }}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -26,311 +36,68 @@
 
 <body>
     <!-- Container -->
-    <div id="container" class="container-fluid">
-      <div id="top-row" class="row">
-        <img id="logo" src="{{ url_for('static', filename='assets/logo.png') }}">
-        <h1 id="logo-text" class="text-white">Helper!</h1>
+    <div id="container">
+      <!-- Top Row: Header with Controls -->
+      <div id="top-row">
+        <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+
+        <div id="logo-container">
+          <img id="logo" src="{{ url_for('static', filename='assets/logo.png') }}" alt="Words With Friends Helper Logo">
+          <h1 id="logo-text">Helper!</h1>
+        </div>
+
+        <div id="editor-controls">
+          <select id="board-size-selector" aria-label="Board size">
+            <option value="15">15 × 15</option>
+            <option value="11">11 × 11</option>
+          </select>
+          <button id="editor-toggle">🎨 Edit Board</button>
+          <button id="mirror-toggle" class="hidden">🪞 Mirror Off</button>
+          <button id="save-board" class="hidden">✓ Save Board</button>
+          <button id="export-board" class="hidden">📥 Export</button>
+          <button id="import-board" class="hidden">📤 Import</button>
+        </div>
       </div>
 
-      <div id="bottom-row" class="row">
-        <!-- Instructions Column -->
-        <div class="col align-self-center text-secondary">
+      <!-- Bottom Row: Main Content -->
+      <div id="bottom-row">
+        <!-- Instructions Panel (Collapsible on Mobile) -->
+        <div id="instructions-panel" class="collapsed">
           <div id="instructions">
-            <h4 class="text-dark">Instructions</h4>
+            <h4>Instructions</h4>
             <hr/>
-            <p>1. First, fill out the game board by clicking on a cell and typing the key to place into the selected cell.</p>
-            <p>2. Next, input your current seven letters into the cells on the right-hand side of the screen.</p>
-            <p>3. Lastly, click "Go", and the best possible move will be displayed on the gameboard. To keep it in the board, click "keep". To remove it, click "Discard".</p>
+            <p><strong>1.</strong> Select board size (11×11 or 15×15) from the dropdown above.</p>
+            <p><strong>2.</strong> Fill out the game board by tapping a cell, then choosing a letter from the popup.</p>
+            <p><strong>3.</strong> Input your seven letters into the letter rack below the board.</p>
+            <p><strong>4.</strong> Click <strong>"Go"</strong> to see the best possible move!</p>
+            <p><strong>5.</strong> Click <strong>"Keep"</strong> to save the move or <strong>"Discard"</strong> to remove it.</p>
             <hr/>
-            <p>To deselect a character, re-click it or press escape.</p>
-            <p>To delete a character, click it, and press delete (backspace).</p>
-            <p>To clear the board, click "clear".</p>
-            <p><span class="text-dark">Note: </span> wildcard characters aren't yet supported.</p>
+            <p><strong>Board Editor:</strong> Click "🎨 Edit Board" to customize bonus tile positions.</p>
+            <p><strong>Delete:</strong> Tap a cell, then tap the delete button (🗑️) in the letter picker.</p>
+            <p><strong>Clear:</strong> Click "Clear" to reset everything.</p>
           </div>
         </div>
-        <!-- /Instructions Column -->
 
-        <!-- Game Board Column -->
-        <div class="col align-self-center">
-          <!-- Table -->
-          <table id="game-board">
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-word">TW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-word">TW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell triple-word">TW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-word">TW</div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-            
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell start-cell"><i id="star" class="fas fa-star"></i></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-            
-            <tr>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-            
-            <tr>
-              <td><div class="game-board-cell triple-word">TW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-word">TW</div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-word">DW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell double-letter">DL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-            
-            <tr>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-word">TW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-letter">TL</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell triple-word">TW</div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-              <td><div class="game-board-cell"></div></td>
-            </tr>
-          </table>
-          <!-- /Table -->
+        <!-- Game Board Container (Grid Generated Dynamically) -->
+        <div id="game-board-container">
+          <div id="game-board"></div>
         </div>
-        <!-- /Game Board Column -->
 
-        <!-- Letter Dock Column -->
-        <div class="col align-self-center">
-          <!-- Score Board -->
+        <!-- Right Column: Letter Rack & Score -->
+        <div id="right-column">
+          <!-- Letter Dock (Moved Above Score) -->
+          <div id="letter-dock-container">
+            <div id="letter-dock">
+              <!-- 7 letter tiles generated dynamically -->
+            </div>
+            <button id="clear" type="button" class="btn btn-danger">Clear</button>
+            <button id="go" type="button" class="btn btn-success">
+              <span id="loader" class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+              Go
+            </button>
+          </div>
+
+          <!-- Score Board (Moved Below Letter Dock) -->
           <div id="score-board-container">
             <div id="score-header">
               <h2>Score</h2>
@@ -341,31 +108,58 @@
             <button id="discard" type="button" class="btn btn-danger">Discard</button>
             <button id="keep" type="button" class="btn btn-secondary">Keep</button>
           </div>
-          <!-- /Score Board -->
-
-          <!-- Letter Dock -->
-          <div id="letter-dock-container">
-            <div id="letter-dock">
-              <div class="letter user-letter"></div>
-              <div class="letter user-letter"></div>
-              <div class="letter user-letter"></div>
-              <div class="letter user-letter"></div>
-              <div class="letter user-letter"></div>
-              <div class="letter user-letter"></div>
-              <div class="letter user-letter"></div>
-            </div>
-            <button id="clear" type="button" class="btn btn-danger">Clear</button>
-            <button id="go" type="button" class="btn btn-success">
-              <span id="loader" class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
-              Go
-            </button>
-          </div>
-          <!-- /Letter Dock -->
         </div>
-        <!-- /Letter Dock Column -->
       </div>
     </div>
     <!-- /Container -->
+
+    <!-- Letter Picker Modal -->
+    <div id="letter-picker-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Choose Letter</h3>
+          <button class="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="letter-grid">
+          <!-- A-Z buttons generated by JavaScript -->
+        </div>
+        <button class="letter-button" style="grid-column: span 2;" data-letter="?">? (Wildcard)</button>
+        <button class="letter-button" style="grid-column: span 2; background: #dc3545; border-color: #c82333;" data-letter="DELETE">🗑️ Delete</button>
+      </div>
+    </div>
+
+    <!-- Tile Type Picker Modal (For Board Editor) -->
+    <div id="tile-picker-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Choose Tile Type</h3>
+          <button class="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="tile-type-grid">
+          <button class="tile-type-button plain" data-tile-type="plain">Plain</button>
+          <button class="tile-type-button double-letter" data-tile-type="double-letter">Double Letter (DL)</button>
+          <button class="tile-type-button triple-letter" data-tile-type="triple-letter">Triple Letter (TL)</button>
+          <button class="tile-type-button double-word" data-tile-type="double-word">Double Word (DW)</button>
+          <button class="tile-type-button triple-word" data-tile-type="triple-word">Triple Word (TW)</button>
+          <button class="tile-type-button start" data-tile-type="start">Start (⭐)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/static/service-worker.js')
+            .then((registration) => {
+              console.log('[PWA] Service Worker registered successfully:', registration.scope);
+            })
+            .catch((error) => {
+              console.error('[PWA] Service Worker registration failed:', error);
+            });
+        });
+      }
+    </script>
 </body>
 
 </html>
