@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en"><head>
+    <!-- Meta data -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WordsWithFriendsHelper</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Caveat&amp;display=swap" rel="stylesheet">
+
+    <!-- Local styles and scripts -->
+    <link rel="stylesheet" href="/static/styles/styles.css">
+    <script type="module" src="/static/scripts/bundle.js"></script>
+</head>
+
+<body>
+    <!-- Container -->
+    <div id="container">
+      <!-- Top Row: Header with Controls -->
+      <div id="top-row">
+        <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+
+        <div id="logo-container">
+          <img id="logo" src="/static/assets/logo.png" alt="Words With Friends Helper Logo">
+          <h1 id="logo-text">Helper!</h1>
+        </div>
+
+        <div id="editor-controls">
+          <select id="board-size-selector" aria-label="Board size">
+            <option value="15">15 × 15</option>
+            <option value="11">11 × 11</option>
+          </select>
+          <button id="editor-toggle">🎨 Edit Board</button>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Main Content -->
+      <div id="bottom-row">
+        <!-- Instructions Panel (Collapsible on Mobile) -->
+        <div id="instructions-panel" class="collapsed">
+          <div id="instructions">
+            <h4>Instructions</h4>
+            <hr>
+            <p><strong>1.</strong> Select board size (11×11 or 15×15) from the dropdown above.</p>
+            <p><strong>2.</strong> Fill out the game board by tapping a cell, then choosing a letter from the popup.</p>
+            <p><strong>3.</strong> Input your seven letters into the letter rack below the board.</p>
+            <p><strong>4.</strong> Click <strong>"Go"</strong> to see the best possible move!</p>
+            <p><strong>5.</strong> Click <strong>"Keep"</strong> to save the move or <strong>"Discard"</strong> to remove it.</p>
+            <hr>
+            <p><strong>Board Editor:</strong> Click "🎨 Edit Board" to customize bonus tile positions.</p>
+            <p><strong>Delete:</strong> Tap a cell, then tap the delete button (🗑️) in the letter picker.</p>
+            <p><strong>Clear:</strong> Click "Clear" to reset everything.</p>
+          </div>
+        </div>
+
+        <!-- Game Board Container (Grid Generated Dynamically) -->
+        <div id="game-board-container">
+          <div id="game-board" style="grid-template-columns: repeat(15, 1fr); grid-template-rows: repeat(15, 1fr);"><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-word">TW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-word">TW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell triple-word">TW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-word">TW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell start-cell"><i id="star" class="fas fa-star"></i></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-word">TW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-word">TW</div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-word">DW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell double-letter">DL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-word">TW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell triple-letter">TL</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell triple-word">TW</div><div class="game-board-cell"></div><div class="game-board-cell"></div><div class="game-board-cell"></div></div>
+        </div>
+
+        <!-- Right Column: Score & Letter Rack -->
+        <div id="right-column">
+          <!-- Score Board -->
+          <div id="score-board-container">
+            <div id="score-header">
+              <h2>Score</h2>
+            </div>
+            <div id="score-value-container">
+              <h1 id="score-value">00</h1>
+            </div>
+            <button id="discard" type="button" class="btn btn-danger">Discard</button>
+            <button id="keep" type="button" class="btn btn-secondary">Keep</button>
+          </div>
+
+          <!-- Letter Dock -->
+          <div id="letter-dock-container">
+            <div id="letter-dock"><div class="letter user-letter"></div><div class="letter user-letter"></div><div class="letter user-letter"></div><div class="letter user-letter"></div><div class="letter user-letter"></div><div class="letter user-letter"></div><div class="letter user-letter"></div></div>
+            <button id="clear" type="button" class="btn btn-danger">Clear</button>
+            <button id="go" type="button" class="btn btn-success">
+              <span id="loader" class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+              Go
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Container -->
+
+    <!-- Letter Picker Modal -->
+    <div id="letter-picker-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Choose Letter</h3>
+          <button class="modal-close" aria-label="Close">×</button>
+        </div>
+        <div class="letter-grid"><button class="letter-button" data-letter="A">A</button><button class="letter-button" data-letter="B">B</button><button class="letter-button" data-letter="C">C</button><button class="letter-button" data-letter="D">D</button><button class="letter-button" data-letter="E">E</button><button class="letter-button" data-letter="F">F</button><button class="letter-button" data-letter="G">G</button><button class="letter-button" data-letter="H">H</button><button class="letter-button" data-letter="I">I</button><button class="letter-button" data-letter="J">J</button><button class="letter-button" data-letter="K">K</button><button class="letter-button" data-letter="L">L</button><button class="letter-button" data-letter="M">M</button><button class="letter-button" data-letter="N">N</button><button class="letter-button" data-letter="O">O</button><button class="letter-button" data-letter="P">P</button><button class="letter-button" data-letter="Q">Q</button><button class="letter-button" data-letter="R">R</button><button class="letter-button" data-letter="S">S</button><button class="letter-button" data-letter="T">T</button><button class="letter-button" data-letter="U">U</button><button class="letter-button" data-letter="V">V</button><button class="letter-button" data-letter="W">W</button><button class="letter-button" data-letter="X">X</button><button class="letter-button" data-letter="Y">Y</button><button class="letter-button" data-letter="Z">Z</button></div>
+        <button class="letter-button" style="grid-column: span 2;" data-letter="?">? (Wildcard)</button>
+        <button class="letter-button" style="grid-column: span 2; background: #dc3545; border-color: #c82333;" data-letter="DELETE">🗑️ Delete</button>
+      </div>
+    </div>
+
+    <!-- Tile Type Picker Modal (For Board Editor) -->
+    <div id="tile-picker-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Choose Tile Type</h3>
+          <button class="modal-close" aria-label="Close">×</button>
+        </div>
+        <div class="tile-type-grid">
+          <button class="tile-type-button plain" data-tile-type="plain">Plain</button>
+          <button class="tile-type-button double-letter" data-tile-type="double-letter">Double Letter (DL)</button>
+          <button class="tile-type-button triple-letter" data-tile-type="triple-letter">Triple Letter (TL)</button>
+          <button class="tile-type-button double-word" data-tile-type="double-word">Double Word (DW)</button>
+          <button class="tile-type-button triple-word" data-tile-type="triple-word">Triple Word (TW)</button>
+          <button class="tile-type-button start" data-tile-type="start">Start (⭐)</button>
+        </div>
+      </div>
+    </div>
+
+
+</body></html>
